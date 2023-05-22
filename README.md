@@ -1,5 +1,4 @@
-Firo
-===============
+# Firo
 
 [![Financial Contributors on Open Collective](https://opencollective.com/firo/all/badge.svg?label=financial+contributors)](https://opencollective.com/firo) [![latest-release](https://img.shields.io/github/release/firoorg/firo)](https://github.com/firoorg/firo/releases)
 [![GitHub last-release](https://img.shields.io/github/release-date/firoorg/firo)](https://github.com/firoorg/firo/releases)
@@ -9,9 +8,6 @@ Firo
 [![GitHub last-commit](https://img.shields.io/github/last-commit/firoorg/firo)](https://github.com/firoorg/firo/commits/master)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/firoorg/firo.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/firoorg/firo/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/firoorg/firo.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/firoorg/firo/context:cpp)
-
-What is Firo?
---------------
 
 [Firo](https://firo.org) formerly known as Zcoin, is a privacy focused cryptocurrency that utilizes zero-knowledge proofs which allows users to destroy coins and then redeem them later for brand new ones with no transaction history.
 
@@ -26,8 +22,7 @@ How Firo’s Privacy Technology Compares to the Competition
 ![A comparison chart of Firo’s solutions with other leading privacy technologies can be found below](https://firo.org/guide/assets/privacy-technology-comparison/comparison-table-firo-updated.png) 
 read more https://firo.org/guide/privacy-technology-comparison.html
 
-Running with Docker
-===================
+# Running with Docker
 
 If you are already familiar with Docker, then running Firo with Docker might be the the easier method for you. To run Firo using this method, first install [Docker](https://store.docker.com/search?type=edition&offering=community). After this you may
 continue with the following instructions.
@@ -76,8 +71,7 @@ Start daemon again:
 docker start firod
 ```
 
-Linux Build Instructions and Notes
-==================================
+# Linux Build Instructions and Notes
 
 Firo contains build scripts for its dependencies to ensure all component versions are compatible. For additional options
 such as cross compilation, read the [depends instructions](depends/README.md)
@@ -86,8 +80,7 @@ Alternatively, you can build dependencies manually. See the full [unix build ins
 
 Bootstrappable builds can [be achieved with Guix.](contrib/guix/README.md)
 
-Development Dependencies (compiler and build tools)
-----------------------
+## Development Dependencies (compiler and build tools)
 
 - Debian/Ubuntu/Mint (minimum Ubuntu 18.04):
 
@@ -114,8 +107,7 @@ Development Dependencies (compiler and build tools)
     sudo pacman -S git base-devel python cmake
     ```
 
-Build Firo
-----------------------
+## Build Firo
 
 1.  Download the source:
 
@@ -148,32 +140,32 @@ Build Firo
         make check
 
 
-macOS Build Instructions and Notes
-=====================================
+# macOS Build Instructions and Notes
+
 See (doc/build-macos.md) for instructions on building on macOS.
 
 
 
-Windows (64/32 bit) Build Instructions and Notes
-=====================================
+# Windows (64/32 bit) Build Instructions and Notes
+
 See (doc/build-windows.md) for instructions on building on Windows 64/32 bit.
 
-## Contributors
+# Contributors
 
-### Code Contributors
+## Code Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/firoorg/firo/graphs/contributors"><img src="https://opencollective.com/firo/contributors.svg?width=890&button=false" /></a>
 
-### Financial Contributors
+## Financial Contributors
 
 Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/firo/contribute)]
 
-#### Individuals
+## Individuals
 
 <a href="https://opencollective.com/firo"><img src="https://opencollective.com/firo/individuals.svg?width=890"></a>
 
-#### Organizations
+## Organizations
 
 Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/firo/contribute)]
 

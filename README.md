@@ -9,6 +9,8 @@
 
 [Firo](https://firo.org) formerly known as Zcoin, is a privacy focused cryptocurrency that utilizes zero-knowledge proofs which allows users to destroy coins and then redeem them later for brand new ones with no transaction history.
 
+test
+
 Our research created the [Lelantus privacy protocol](https://eprint.iacr.org/2019/373) which supports high anonymity sets without requiring trusted setup and relying only on standard cryptographic assumptions. The Lelantus cryptographic library was audited by [Trail of Bits](https://github.com/trailofbits/publications/blob/master/reviews/zcoin-lelantus-summary.pdf) and funded by Firo's CCS. Lelantus' cryptography was also audited by [ABDK Consulting](https://www.abdk.consulting/).
 
 Firo also utilises [Dandelion++](https://arxiv.org/abs/1805.11060) to obscure the originating IP of transactions without relying on any external services such as Tor/i2P.

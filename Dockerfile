@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     libtool \
     make \
     pkg-config \
-    patch 
+    patch \
+    git
 
 # Build Firo
 COPY . /tmp/firo/

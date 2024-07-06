@@ -1,17 +1,18 @@
 name: Continuous Integration on Master
+
 on:
   push:
     paths-ignore:
-    - 'doc/**'
-    - '**/README.md'
+      - 'doc/**'
+      - '**/README.md'
     branches:
-    - master
+      - master
   pull_request:
     paths-ignore:
-    - 'doc/**'
-    - '**/README.md'
+      - 'doc/**'
+      - '**/README.md'
     branches:
-    - master
+      - master
     
 env:
   SOURCE_ARTIFACT: source
@@ -22,30 +23,30 @@ jobs:
     name: Create Source Distribution
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Install Required Packages
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libboost-all-dev libdb-dev libdb++-dev libevent-dev bison
-    - name: Create Distribution Tarball
-      run: |
-        ./autogen.sh
-        ./configure --with-incompatible-bdb ac_cv_lib_tor_tor_main=yes
-        make dist
-    - name: Download Dependencies
-      run: make -C depends download
-    - name: Create Dependencies Tarball
-      run: tar -czf depends.tar.gz depends
-    - name: Prepare Files for Artifact
-      run: |
-        mkdir -p ${{ env.ARTIFACT_DIR }}
-        mv depends.tar.gz firo-*.tar.gz ${{ env.ARTIFACT_DIR }}
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: source
-        path: ${{ env.ARTIFACT_DIR }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Required Packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev libdb-dev libdb++-dev libevent-dev bison
+      - name: Create Distribution Tarball
+        run: |
+          ./autogen.sh
+          ./configure --with-incompatible-bdb ac_cv_lib_tor_tor_main=yes
+          make dist
+      - name: Download Dependencies
+        run: make -C depends download
+      - name: Create Dependencies Tarball
+        run: tar -czf depends.tar.gz depends
+      - name: Prepare Files for Artifact
+        run: |
+          mkdir -p ${{ env.ARTIFACT_DIR }}
+          mv depends.tar.gz firo-*.tar.gz ${{ env.ARTIFACT_DIR }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: source
+          path: ${{ env.ARTIFACT_DIR }}
 
   build-linux:
     name: Build for Linux
@@ -55,62 +56,62 @@ jobs:
       BIN_DIR: linux-binaries
       TEST_LOG_ARTIFACT_DIR: test-logs
     steps:
-    - name: Getting Source
-      uses: actions/download-artifact@v4
-      with:
-        name: ${{ env.SOURCE_ARTIFACT }}
-    - name: Extract Archives
-      run: |
-        tar -xzf depends.tar.gz
-        tar -xzf firo-*.tar.gz --strip-components=1
-      working-directory: ${{ env.ARTIFACT_DIR }}
-    - name: Install Required Packages
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-zmq
-    - name: Build Dependencies
-      run: make -C depends -j$(nproc)
-      working-directory: ${{ env.ARTIFACT_DIR }}
-    - name: Build Firo
-      run: |
-        ./configure --disable-jni --enable-tests --with-comparison-tool=no --prefix=$(realpath depends/x86_64-pc-linux-gnu)
-        make -j$(nproc)
-      working-directory: ${{ env.ARTIFACT_DIR }}
-    - name: Run Unit Tests
-      run: make check
-      working-directory: ${{ env.ARTIFACT_DIR }}
-    - name: Run RPC Tests
-      env:
-        TIMEOUT: 600
-      run: qa/pull-tester/rpc-tests.py -extended
-      working-directory: ${{ env.ARTIFACT_DIR }}
-    - name: Prepare Files for Artifact
-      run: |
-        mkdir -p $BIN-DIR
-        mv $SOURCE_ARTIFACT/src/{firo-cli,firo-tx,firod,qt/firo-qt} $BIN-DIR
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: linux-binaries
-        path: ${{ env.ARTIFACT_DIR }}
-    - name: Prepare Test Logs for Artifact
-      if: failure()
-      run: |
-        tor_log=$SOURCE_ARTIFACT/src/tor/test-suite.log
-        firo_log=$SOURCE_ARTIFACT/src/test-suite.log
-
-        mkdir -p $TEST_LOG_ARTIFACT_DIR
-
-        if test -f $tor_log; then
-          mv $tor_log $TEST_LOG_ARTIFACT_DIR/tor.log
-        fi
-
-        if test -f $firo_log; then
-          mv $firo_log $TEST_LOG_ARTIFACT_DIR/firo.log
-        fi
-    - name: Upload Test Logs Artifact
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-logs
-        path: ${{ env.TEST_LOG_ARTIFACT_DIR }}
+      - name: Getting Source
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+      - name: Extract Archives
+        run: |
+          tar -xzf depends.tar.gz
+          tar -xzf firo-*.tar.gz --strip-components=1
+        working-directory: ${{ env.ARTIFACT_DIR }}
+      - name: Install Required Packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-zmq
+      - name: Build Dependencies
+        run: make -C depends -j$(nproc)
+        working-directory: ${{ env.ARTIFACT_DIR }}
+      - name: Build Firo
+        run: |
+          ./configure --disable-jni --enable-tests --with-comparison-tool=no --prefix=$(realpath depends/x86_64-pc-linux-gnu)
+          make -j$(nproc)
+        working-directory: ${{ env.ARTIFACT_DIR }}
+      - name: Run Unit Tests
+        run: make check
+        working-directory: ${{ env.ARTIFACT_DIR }}
+      - name: Run RPC Tests
+        env:
+          TIMEOUT: 600
+        run: qa/pull-tester/rpc-tests.py -extended
+        working-directory: ${{ env.ARTIFACT_DIR }}
+      - name: Prepare Files for Artifact
+        run: |
+          mkdir -p $BIN-DIR
+          mv $SOURCE_ARTIFACT/src/{firo-cli,firo-tx,firod,qt/firo-qt} $BIN_DIR
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-binaries
+          path: ${{ env.BIN_DIR }}
+      - name: Prepare Test Logs for Artifact
+        if: failure()
+        run: |
+          tor_log=$SOURCE_ARTIFACT/src/tor/test-suite.log
+          firo_log=$SOURCE_ARTIFACT/src/test-suite.log
+      
+          mkdir -p $TEST_LOG_ARTIFACT_DIR
+      
+          if test -f $tor_log; then
+            mv $tor_log $TEST_LOG_ARTIFACT_DIR/tor.log
+          fi
+      
+          if test -f $firo_log; then
+            mv $firo_log $TEST_LOG_ARTIFACT_DIR/firo.log
+          fi
+      - name: Upload Test Logs Artifact
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-logs
+          path: ${{ env.TEST_LOG_ARTIFACT_DIR }}
